@@ -121,10 +121,12 @@ int insertAtMiddle(LinkedList *list, int value){
 
 // remove do inicio
 int removeAtFront(LinkedList *list) {
-    // 1. pega o primeiro nó e anota o endereço
+    // 1. pega o primeiro nó e anota o endereço que indentifica o inicio
+    int *aux;
+    aux = list->head;
     // [0][dsadas,1] ->[1][dasdsa,2]-> [2][dasdas,null]
-    //
     // 2. Apaga o nó
+    // 3. associa o proximo nó como o endereço do inicio
 }
 
 // Imprime a lista
