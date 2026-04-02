@@ -1,13 +1,20 @@
 import java.util.Scanner;
 
-public class SwapName {
+/**
+ *
+ * Exercico 1 Tarefa 1
+ * Aluno: Renan Groh - GRR20250818
+ *
+ */
+
+public class Nome {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Digite seu nome e sobrenome: ");
         String fullName = scanner.nextLine(); // Lê a linha inteira
 
-        // O método .split(" ") divide a frase em um array de palavras
+        // O metodo .split(" ") divide a frase em um array de palavras
         String[] words = fullName.split(" ");
 
         System.out.print("Resultado: ");
