@@ -121,12 +121,17 @@ int insertAtMiddle(LinkedList *list, int value){
 
 // remove do inicio
 int removeAtFront(LinkedList *list) {
-    // 1. pega o primeiro nó e anota o endereço que indentifica o inicio
-    int *aux;
-    aux = list->head;
-    // [0][dsadas,1] ->[1][dasdsa,2]-> [2][dasdas,null]
-    // 2. Apaga o nó
-    // 3. associa o proximo nó como o endereço do inicio
+    // 1. valida se a lista existe e não está vazia
+    if (list == NULL || list->head == NULL) return 0;
+    // 2. guarda o primeiro nó antes de avançar o head
+    Node *aux = list->head;
+    // 3. head passa a apontar para o próximo nó
+    list->head = list->head->next;
+    // 4. libera o nó removido
+    free(aux);
+    // 5. atualiza o tamanho da lista
+    list->size--;
+    return 1;
 }
 
 // Imprime a lista
@@ -160,16 +165,18 @@ int main() {
     initList(&linkedlist);
 
     // insere no inicio e fim test 
-    //insertAtFront(&linkedlist, 10);
-    //insertAtFront(&linkedlist, 20);
-    //insertAtFront(&linkedlist, 30);
-    //insereAtEnd(&linkedlist,50);
-    //insereAtEnd(&linkedlist,80)
+    insertAtFront(&linkedlist, 10);
+    insertAtFront(&linkedlist, 20);
+    insertAtFront(&linkedlist, 30);
+    insereAtEnd(&linkedlist,50);
+    insereAtEnd(&linkedlist,80);
+    removeAtFront(&linkedlist);
     
-    insertAtMiddle(&linkedlist, 7);
-    insertAtMiddle(&linkedlist, 5);
-    insertAtMiddle(&linkedlist, 2);
-    insertAtMiddle(&linkedlist, 9);
+    
+    // insertAtMiddle(&linkedlist, 7);
+    // insertAtMiddle(&linkedlist, 5);
+    // insertAtMiddle(&linkedlist, 2);
+    // insertAtMiddle(&linkedlist, 9);
     
     printList(&linkedlist);
 
