@@ -72,6 +72,7 @@ int insertAtFront(LinkedList *list,int value){
     return 1;
 }
 
+// 3. insere no fim
 int insereAtEnd(LinkedList *list, int value) {
     // 1. Crio o novo nodo e insiro o valor
     Node *node = createNode(value);
@@ -94,7 +95,7 @@ int insereAtEnd(LinkedList *list, int value) {
     return 1;
 }
 
-// 3. Insere no meio, deforma ordenada | USO EXCLUSIVO
+// 4. Insere no meio, deforma ordenada | USO EXCLUSIVO
 int insertAtMiddle(LinkedList *list, int value){
     // Cria o nodo e insere o valor
     Node *node = createNode(value);
@@ -119,7 +120,7 @@ int insertAtMiddle(LinkedList *list, int value){
     return 1;
  }
 
-// remove do inicio
+// 5. remove do inicio
 int removeAtFront(LinkedList *list) {
     // 1. valida se a lista existe e não está vazia
     if (list == NULL || list->head == NULL) return 0;
@@ -130,6 +131,31 @@ int removeAtFront(LinkedList *list) {
     // 4. libera o nó removido
     free(aux);
     // 5. atualiza o tamanho da lista
+    list->size--;
+    return 1;
+}
+
+// 6. remove no fim
+int removeAtEnd(LinkedList *list) {
+    // Caso a lista nao exista ou esja vazia
+    if (list == NULL || list->head == NULL) return 0;
+    // caso com apenas um nó
+    if (list->head->next == NULL) {
+        free(list->head);
+        list->head = NULL;
+        list->size--;
+        return 1;
+    }
+    
+    Node *current = list->head;
+    // para no penultimo nó
+    while (current->next->next != NULL){
+        current = current->next;
+    }
+    
+    Node *aux = current->next;
+    current->next = NULL;
+    free(aux);
     list->size--;
     return 1;
 }
@@ -171,6 +197,7 @@ int main() {
     insereAtEnd(&linkedlist,50);
     insereAtEnd(&linkedlist,80);
     removeAtFront(&linkedlist);
+    removeAtEnd(&linkedlist);
     
     
     // insertAtMiddle(&linkedlist, 7);
