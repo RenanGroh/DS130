@@ -160,6 +160,24 @@ int removeAtEnd(LinkedList *list) {
     return 1;
 }
 
+// 7. remove um elemento qualquer (por valor)
+int removeByValue(LinkedList *list, int value) {
+    // Caso a lista nao exista ou esja vazia
+    if (list == NULL || list->head == NULL) return 0;
+
+    Node *current;
+    Node *aux;
+
+    while (current != NULL) {
+        current = current->next;
+        if (current->data == value){
+            aux = current->next;
+        }
+    }
+
+
+}
+
 // Imprime a lista
 void printList(LinkedList *L) {
     // 1. Verificamos se a lista existe e se não está vazia
