@@ -162,23 +162,73 @@ int removeAtEnd(LinkedList *list) {
 
 // 7. remove um elemento qualquer (por valor)
 int removeByValue(LinkedList *list, int value) {
-    // Caso a lista nao exista ou esja vazia
+    // Caso a lista nao exista ou esteja vazia
     if (list == NULL || list->head == NULL) return 0;
 
-    Node *current;
-    Node *aux;
-
-    while (current != NULL) {
-        current = current->next;
-        if (current->data == value){
-            aux = current->next;
-        }
+    // Caso 1: O elemento a ser removido e o primeiro da lista (Head)
+    if (list->head->data == value) {
+        // 1. Guardamos o endereco do primeiro no temporariamente em 'aux'
+        // Se nao fizermos isso, perderemos a referencia dele ao mover o head
+        Node *aux = list->head;
+        
+        // 2. O inicio da lista passa a ser o SEGUNDO elemento
+        list->head = list->head->next;
+        
+        // 3. Agora que o primeiro no esta desconectado da lista, liberamos sua memoria
+        free(aux);
+        
+        // 4. Reduzimos o tamanho total da lista
+        list->size--;
+        
+        // 5. Retornamos 1 (sucesso) pois ja removemos o que queriamos
+        return 1;
     }
 
+    // Caso 2: O elemento esta no meio ou no fim
+    Node *current = list->head;
+    // Percorre ate achar o no cujo PROXIMO tenha o valor desejado
+    while (current->next != NULL && current->next->data != value) {
+        current = current->next;
+    }
 
+    // Se chegou no final e nao encontrou o valor
+    if (current->next == NULL) return 0;
+
+    // Encontrou: o no a ser removido e current->next
+    Node *aux = current->next;
+    current->next = aux->next; // O no anterior "pula" o no removido
+    free(aux);
+    list->size--;
+
+    return 1;
 }
 
-// Imprime a lista
+// 8. Busca um elemento qualquer
+int searchByValue(LinkedList *list, int value) {
+    // 1. Verifica se a lista existe e nao esta vazia
+    if (list == NULL || list->head == NULL) {
+        return -1;
+    }
+
+    Node *current = list->head;
+    int index = 0; // Usado para rastrear a posicao (0, 1, 2...)
+
+    // 2. Percorre a lista ate o final
+    while (current != NULL) {
+        if (current->data == value) {
+            printf("Valor %d encontrado na posicao %d da lista!\n", value, index);
+            return index; // Retorna a posicao caso encontre
+        }
+        current = current->next;
+        index++;
+    }
+
+    // 3. Se o laco terminar e nao retornar, e porque o valor nao existe na lista
+    printf("Valor %d nao encontrado na lista.\n", value);
+    return -1;
+}
+
+// 9. Imprime a lista
 void printList(LinkedList *L) {
     // 1. Verificamos se a lista existe e se não está vazia
     if (L == NULL || L->head == NULL) {
@@ -224,9 +274,10 @@ int main() {
     // insertAtMiddle(&linkedlist, 9);
     
     printList(&linkedlist);
+    
+    // Testando a busca
+    searchByValue(&linkedlist, 20); // Esperado: Encontrar o valor
+    searchByValue(&linkedlist, 99); // Esperado: Nao encontrar o valor
 
     return 0;
 }
-
-
-
