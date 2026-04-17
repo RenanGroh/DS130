@@ -58,10 +58,10 @@ void lerPessoa(Pessoa *p)
     scanf(" %29s", p->nome);
 
     printf("Idade: ");
-    scanf("%d", &p->idade);
+    scanf(" %d", &p->idade);
 
     printf("Sexo (F ou M): ");
-    scanf("%c", &p->sexo);
+    scanf(" %c", &p->sexo);
 }
 
 void inserirAntes(ListaDE *l, No *ref, Pessoa p)
