@@ -181,14 +181,15 @@ int removeAtEnd(LinkedList *list) {
     }
     
     Node *current = list->head;
-    // para no penultimo nó
-    while (current->next->next != NULL){
+    // 1. Navega até o ÚLTIMO nó (graças ao prev, não precisamos parar no penúltimo!)
+    while (current->next != NULL){
         current = current->next;
     }
     
-    Node *aux = current->next;
-    current->next = NULL;
-    free(aux);
+    // 2. O "next" do penúltimo nó passa a ser NULL
+    current->prev->next = NULL;
+    // 3. Libera o último nó diretamente
+    free(current);
     list->size--;
     return 1;
 }
@@ -198,39 +199,32 @@ int removeByValue(LinkedList *list, int value) {
     // Caso a lista nao exista ou esteja vazia
     if (list == NULL || list->head == NULL) return 0;
 
-    // Caso 1: O elemento a ser removido e o primeiro da lista (Head)
-    if (list->head->data == value) {
-        // 1. Guardamos o endereco do primeiro no temporariamente em 'aux'
-        // Se nao fizermos isso, perderemos a referencia dele ao mover o head
-        Node *aux = list->head;
-        
-        // 2. O inicio da lista passa a ser o SEGUNDO elemento
-        list->head = list->head->next;
-        
-        // 3. Agora que o primeiro no esta desconectado da lista, liberamos sua memoria
-        free(aux);
-        
-        // 4. Reduzimos o tamanho total da lista
-        list->size--;
-        
-        // 5. Retornamos 1 (sucesso) pois ja removemos o que queriamos
-        return 1;
-    }
-
-    // Caso 2: O elemento esta no meio ou no fim
     Node *current = list->head;
-    // Percorre ate achar o no cujo PROXIMO tenha o valor desejado
-    while (current->next != NULL && current->next->data != value) {
+    
+    // 1. Navega até encontrar o nó EXATO que contém o valor
+    while (current != NULL && current->data != value) {
         current = current->next;
     }
 
-    // Se chegou no final e nao encontrou o valor
-    if (current->next == NULL) return 0;
+    // 2. Se chegou ao final (NULL) e não encontrou, retorna 0 (falha)
+    if (current == NULL) return 0;
 
-    // Encontrou: o no a ser removido e current->next
-    Node *aux = current->next;
-    current->next = aux->next; // O no anterior "pula" o no removido
-    free(aux);
+    // 3. O nó é o primeiro da lista?
+    if (current == list->head) {
+        list->head = current->next; // O head avança
+    } else {
+        // Se não for o primeiro, o "next" do anterior pula o nó atual
+        current->prev->next = current->next;
+    }
+    
+    // 4. O nó NÃO é o último da lista?
+    if (current->next != NULL) {
+        // Se não for o último, o "prev" do próximo volta pulando o nó atual
+        current->next->prev = current->prev;
+    }
+
+    // 5. Libera a memória do nó encontrado e reduz o tamanho
+    free(current);
     list->size--;
 
     return 1;
@@ -340,7 +334,7 @@ int main() {
     do {
         printf("\n--- MENU LISTA DUPLAMENTE ENCADEADA ---\n");
         printf("1. Inserir Inicio  | 2. Inserir Meio | 3. Inserir Fim\n");
-        printf("4. Remover Inicio  | 5. Remover Fim  | 6. Remover do Indice\n");
+        printf("4. Remover Inicio  | 5. Remover Fim  | 6. Remover por Valor\n");
         printf("7. Buscar Elemento | 8. Imprimir (Normal) | 88. Imprimir (Reverso) | 9. Deletar Lista\n");
         printf("0. Sair\n");
         printf("Escolha: ");
