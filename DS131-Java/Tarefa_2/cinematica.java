@@ -15,6 +15,7 @@ public class cinematica {
 
         System.out.print("Digite o tempo em horas: ");
         double time = scanner.nextDouble();
+        scanner.close();
 
         double speed = distance / time;
         System.out.println("A velocidade média é: " + speed + " km/h");
