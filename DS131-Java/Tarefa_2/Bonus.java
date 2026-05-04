@@ -1,5 +1,11 @@
 import java.util.Scanner;
 
+/**
+ *
+ * Exercico 5 Tarefa 2
+ * Aluno: Renan Groh - GRR20250818
+ *
+ */
 public class Bonus {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
